@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 type Props = {
   price: number;
@@ -6,15 +8,32 @@ type Props = {
   options?: { title: string; additionalPrice: number }[];
 };
 const Price = ({ price, id, options }: Props) => {
+  const [totalPrice, setTotalPrice] = useState(price);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedOption, setSelectedOption] = useState(0);
+
+  useEffect(() => {
+    setTotalPrice(
+      quantity *
+        (options ? price + options[selectedOption].additionalPrice : price),
+    );
+  }, [quantity, selectedOption, options, price]);
+
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">${price.toFixed(2)}</h2>
+      <h2 className="text-2xl font-bold">${totalPrice.toFixed(2)}</h2>
       {/* Options Container */}
       <div className="flex gap-4">
-        {options?.map((option) => (
+        {options?.map((option, index) => (
           <button
-            className="p-2 ring-1 ring-red-400 rounded-md"
+            className="p-2 ring-1 ring-red-400 rounded-md min-w-24 cursor-pointer"
             key={option.title}
+            style={{
+              background:
+                selectedOption === index ? "rgb(290 113 120)" : "white",
+              color: selectedOption === index ? "white" : "red",
+            }}
+            onClick={() => setSelectedOption(index)}
           >
             {option.title}
           </button>
@@ -25,14 +44,24 @@ const Price = ({ price, id, options }: Props) => {
         {/* Quantity Selector */}
         <div className="flex justify-between w-full p-3 ring-1 ring-red-400 rounded-md ">
           <span>Quantity</span>
-          <div className="flex gap-4">
-            <button>{"<"}</button>
-            <span>1</span>
-            <button>{">"}</button>
+          <div className="flex gap-4 items-center">
+            <button
+              className="cursor-pointer"
+              onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
+            >
+              {"<"}
+            </button>
+            <span>{quantity}</span>
+            <button
+              className="cursor-pointer"
+              onClick={() => setQuantity((prev) => (prev < 9 ? prev + 1 : 9))}
+            >
+              {">"}
+            </button>
           </div>
         </div>
         {/* Add to Cart Button */}
-        <button className="uppercase w-56 bg-red-500 text-white p-3 rounded-md">
+        <button className="uppercase w-56 bg-red-500 text-white p-3 rounded-md cursor-pointer">
           Add to Cart
         </button>
       </div>
