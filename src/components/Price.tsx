@@ -30,7 +30,7 @@ const Price = ({ price, id, options }: Props) => {
             key={option.title}
             style={{
               background:
-                selectedOption === index ? "rgb(290 113 120)" : "white",
+                selectedOption === index ? "rgb(239, 68, 68)" : "white",
               color: selectedOption === index ? "white" : "red",
             }}
             onClick={() => setSelectedOption(index)}

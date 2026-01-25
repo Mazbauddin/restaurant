@@ -6,3 +6,24 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #ef4444; /* red-500 */
+  border-radius: 0px;
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626; /* red-600 */
+}
